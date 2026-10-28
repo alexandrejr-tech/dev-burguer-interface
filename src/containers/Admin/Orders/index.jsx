@@ -11,7 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import { api } from '../../../services/api';
 import { orderStatusOptions } from './orderStatus';
 import { Row } from './row';
-import { Filter, FilterOption } from './styles';
+import { Container, Filter, FilterOption } from './styles';
 
 export function Orders() {
   const [orders, setOrders] = useState([]); // BACKUP
@@ -76,7 +76,7 @@ export function Orders() {
   }, [orders]);
 
   return (
-    <>
+    <Container>
       <Filter>
         {orderStatusOptions.map((status) => (
           <FilterOption
@@ -89,7 +89,7 @@ export function Orders() {
         ))}
       </Filter>
       <TableContainer component={Paper}>
-        <Table aria-label="collapsible table">
+        <Table aria-label="collapsible table" className="orders-table">
           <TableHead>
             <TableRow>
               <TableCell />
@@ -111,6 +111,6 @@ export function Orders() {
           </TableBody>
         </Table>
       </TableContainer>
-    </>
+    </Container>
   );
 }

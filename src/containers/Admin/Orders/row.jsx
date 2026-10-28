@@ -16,7 +16,7 @@ import PropTypes from 'prop-types';
 import { api } from '../../../services/api';
 import { formatDate } from '../../../utils/formatDate';
 import { orderStatusOptions } from './orderStatus';
-import { ProductImage, SelectStatus } from './styles';
+import { OrderId, ProductImage, SelectStatus } from './styles';
 
 export function Row({ row, setOrders, orders }) {
   const [open, setOpen] = useState(false);
@@ -33,7 +33,7 @@ export function Row({ row, setOrders, orders }) {
 
       setOrders(newOrders);
     } catch (err) {
-      console.logo(err);
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -75,9 +75,13 @@ export function Row({ row, setOrders, orders }) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                Pedido
+                Pedido <OrderId>#{row.ordersId}</OrderId>
               </Typography>
-              <Table size="small" aria-label="purchases">
+              <Table
+                size="small"
+                aria-label="purchases"
+                className="products-table"
+              >
                 <TableHead>
                   <TableRow>
                     <TableCell>Quantidade</TableCell>
@@ -90,7 +94,7 @@ export function Row({ row, setOrders, orders }) {
                   {row.products.map((product) => (
                     <TableRow key={product.id}>
                       <TableCell component="th" scope="row">
-                        {product.id}
+                        {product.quantity}
                       </TableCell>
                       <TableCell>{product.name}</TableCell>
                       <TableCell>{product.category}</TableCell>

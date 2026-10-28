@@ -14,6 +14,17 @@ const globalStyles = createGlobalStyle`
         font-style: normal;
     }
 
+    body {
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    #root {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
     button, a{
         cursor: pointer;
     }

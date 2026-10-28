@@ -1,6 +1,15 @@
 import styled from 'styled-components';
 
-export const Container = styled.div``;
+import { media } from '../../../styles/media';
+
+export const Container = styled.div`
+  ${media.tablet} {
+    th:nth-child(4),
+    td:nth-child(4) {
+      display: none;
+    }
+  }
+`;
 
 export const ProductImage = styled.img`
   height: 80px;

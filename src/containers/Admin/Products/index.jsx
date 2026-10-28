@@ -13,6 +13,7 @@ import {
   PencilIcon,
   XCircleIcon,
 } from '@phosphor-icons/react';
+import { useTheme } from 'styled-components';
 
 import { api } from '../../../services/api';
 import { formatPrice } from '../../../utils/formatPrice';
@@ -21,6 +22,7 @@ import { Container, EditButton, ProductImage } from './styles';
 export function Products() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+  const theme = useTheme();
 
   useEffect(() => {
     async function loadProducts() {
@@ -34,9 +36,9 @@ export function Products() {
 
   function isOffer(offer) {
     if (offer) {
-      return <CheckCircleIcon color="#61A120" size="28" />;
+      return <CheckCircleIcon color={theme.gren} size="28" />;
     } else {
-      return <XCircleIcon color="#ff3205" size="28" />;
+      return <XCircleIcon color={theme.red} size="28" />;
     }
   }
 
@@ -47,7 +49,7 @@ export function Products() {
   return (
     <Container>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table sx={{ minWidth: { xs: 0, md: 650 } }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Nome</TableCell>

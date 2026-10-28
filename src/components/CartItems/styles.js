@@ -1,9 +1,38 @@
 import styled from 'styled-components';
 
+import { media } from '../../styles/media';
+
+export const Container = styled.div`
+  width: 100%;
+  overflow-x: auto;
+
+  ${media.mobile} {
+    th:nth-child(3),
+    td:nth-child(3) {
+      display: none;
+    }
+
+    td[colspan] {
+      display: table-cell;
+    }
+  }
+`;
+
 export const ProductImage = styled.img`
   height: 80px;
   width: 80px;
   border-radius: 16px;
+
+  ${media.tablet} {
+    height: 56px;
+    width: 56px;
+    border-radius: 12px;
+  }
+
+  ${media.mobile} {
+    height: 44px;
+    width: 44px;
+  }
 `;
 
 export const ButtonGroup = styled.div`
@@ -17,14 +46,23 @@ export const ButtonGroup = styled.div`
     justify-content: center;
     height: 30px;
     width: 30px;
-    color: #fff;
+    color: ${(props) => props.theme.white};
     border-radius: 4px;
     background-color: ${(props) => props.theme.purple};
     transition: all 0.4s;
     border: none;
 
     &:hover {
-      background-color: #6f357c;
+      background-color: ${(props) => props.theme.secondDarkPurple};
+    }
+  }
+
+  ${media.mobile} {
+    gap: 8px;
+
+    button {
+      height: 28px;
+      width: 28px;
     }
   }
 `;
@@ -37,6 +75,7 @@ export const EmptyCart = styled.p`
 
 export const ProductTotalPrice = styled.p`
   font-weight: bold;
+  white-space: nowrap;
 `;
 
 export const TrashImage = styled.img`

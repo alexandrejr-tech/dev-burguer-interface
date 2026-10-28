@@ -3,7 +3,14 @@ import ReactMultiCarousel from 'react-multi-carousel';
 import { useNavigate } from 'react-router-dom';
 
 import { api } from '../../services/api';
-import { CategoryButton, Container, ContainerItems, Title } from './styles';
+import { CarouselArrows } from '../CarouselArrows';
+import {
+  CarouselWrapper,
+  CategoryButton,
+  Container,
+  ContainerItems,
+  Title,
+} from './styles';
 
 import 'react-multi-carousel/lib/styles.css';
 
@@ -26,46 +33,55 @@ export function CategoriesCasousel() {
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
-      items: 4,
+      items: 3,
+      partialVisibilityGutter: 50,
     },
     desktop: {
       breakpoint: { max: 3000, min: 1280 },
-      items: 4,
+      items: 3,
+      partialVisibilityGutter: 50,
     },
     tablet: {
       breakpoint: { max: 1280, min: 690 },
-      items: 3,
+      items: 2,
+      partialVisibilityGutter: 60,
     },
     mobile: {
       breakpoint: { max: 690, min: 0 },
-      items: 2,
+      items: 1,
+      partialVisibilityGutter: 60,
     },
   };
 
   return (
     <Container>
       <Title>Categorias</Title>
-      <Carousel
-        responsive={responsive}
-        infinite={true}
-        partialVisible={false}
-        itemClass="carousel-item"
-      >
-        {categories.map((category) => (
-          <ContainerItems key={category.id} imageUrl={category.url}>
-            <CategoryButton
-              onClick={() => {
-                navigate({
-                  pathname: '/cardapio',
-                  search: `?categoria=${category.id}`,
-                });
-              }}
-            >
-              {category.name}
-            </CategoryButton>
-          </ContainerItems>
-        ))}
-      </Carousel>
+      <CarouselWrapper>
+        <Carousel
+          responsive={responsive}
+          infinite={false}
+          partialVisible={true}
+          itemClass="carousel-item"
+          arrows={false}
+          renderButtonGroupOutside={true}
+          customButtonGroup={<CarouselArrows />}
+        >
+          {categories.map((category) => (
+            <ContainerItems key={category.id} $imageUrl={category.url}>
+              <CategoryButton
+                onClick={() => {
+                  navigate({
+                    pathname: '/cardapio',
+                    search: `?categoria=${category.id}`,
+                  });
+                }}
+              >
+                {category.name}
+              </CategoryButton>
+            </ContainerItems>
+          ))}
+        </Carousel>
+      </CarouselWrapper>
     </Container>
   );
 }

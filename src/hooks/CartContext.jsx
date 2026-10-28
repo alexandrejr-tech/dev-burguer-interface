@@ -8,20 +8,16 @@ export const CartProvider = ({ children }) => {
   const putProductInCart = (product) => {
     const cartIndex = cartProducts.findIndex((prd) => prd.id === product.id);
 
-    let newProductsInCart = [];
+    const newProductsInCart =
+      cartIndex >= 0
+        ? cartProducts.map((prd) =>
+            prd.id === product.id
+              ? { ...prd, quantity: prd.quantity + 1 }
+              : prd,
+          )
+        : [...cartProducts, { ...product, quantity: 1 }];
 
-    if (cartIndex >= 0) {
-      newProductsInCart = cartProducts;
-
-      newProductsInCart[cartIndex].quantity =
-        newProductsInCart[cartIndex].quantity + 1;
-
-      setCartProducts(newProductsInCart);
-    } else {
-      product.quantity = 1;
-      newProductsInCart = [...cartProducts, product];
-      setCartProducts(newProductsInCart);
-    }
+    setCartProducts(newProductsInCart);
 
     updateLocalStorage(newProductsInCart);
   };

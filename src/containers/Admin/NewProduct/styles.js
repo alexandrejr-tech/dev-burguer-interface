@@ -3,12 +3,18 @@ import ReactSelect from 'react-select';
 import styled from 'styled-components';
 
 import { Button } from '../../../components';
+import { media } from '../../../styles/media';
 
 export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+
+  ${media.tablet} {
+    min-height: auto;
+    padding: 12px 0;
+  }
 `;
 
 export const Form = styled.form`
@@ -20,6 +26,10 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 12px;
+
+  ${media.mobile} {
+    padding: 24px 16px;
+  }
 `;
 
 export const InputGroup = styled.div`

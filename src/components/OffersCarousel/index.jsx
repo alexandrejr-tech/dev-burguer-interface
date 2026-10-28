@@ -7,7 +7,8 @@ import 'react-multi-carousel/lib/styles.css';
 import { api } from '../../services/api';
 import { formatPrice } from '../../utils/formatPrice';
 import { CardProduct } from '../CardProduct';
-import { Container, Title } from './styles';
+import { CarouselArrows } from '../CarouselArrows';
+import { CarouselWrapper, Container, Title } from './styles';
 
 export function OffersCasousel() {
   const [offers, setOffers] = useState([]);
@@ -38,29 +39,39 @@ export function OffersCasousel() {
       breakpoint: { max: 3000, min: 1280 },
       items: 4,
     },
-    tablet: {
-      breakpoint: { max: 1280, min: 690 },
+    laptop: {
+      breakpoint: { max: 1280, min: 1024 },
       items: 3,
     },
-    mobile: {
-      breakpoint: { max: 690, min: 0 },
+    tablet: {
+      breakpoint: { max: 1024, min: 640 },
       items: 2,
+    },
+    mobile: {
+      breakpoint: { max: 640, min: 0 },
+      items: 1,
+      partialVisibilityGutter: 60,
     },
   };
 
   return (
     <Container>
       <Title>Ofertas do Dia</Title>
-      <Carousel
-        responsive={responsive}
-        infinite={true}
-        partialVisible={false}
-        itemClass="carousel-item"
-      >
-        {offers.map((product) => (
-          <CardProduct key={product.id} product={product} />
-        ))}
-      </Carousel>
+      <CarouselWrapper>
+        <Carousel
+          responsive={responsive}
+          infinite={false}
+          partialVisible={true}
+          itemClass="carousel-item"
+          arrows={false}
+          renderButtonGroupOutside={true}
+          customButtonGroup={<CarouselArrows />}
+        >
+          {offers.map((product) => (
+            <CardProduct key={product.id} product={product} />
+          ))}
+        </Carousel>
+      </CarouselWrapper>
     </Container>
   );
 }

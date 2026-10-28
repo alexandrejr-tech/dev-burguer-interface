@@ -1,38 +1,48 @@
 import styled from 'styled-components';
 
+import { media } from '../../styles/media';
+
 export const Container = styled.div`
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px 40px;
+
+  ${media.mobile} {
+    padding: 0 16px 32px;
+  }
+`;
+
+export const CarouselWrapper = styled.div`
+  position: relative;
+  padding: 0 60px;
+
   .carousel-item {
-    padding-right: 40px;
+    display: flex;
+    padding: 60px 12px 20px;
   }
 
-  overflow-x: hidden;
+  ${media.tablet} {
+    padding: 0 36px;
 
-  .react-multi-carousel-list {
-    overflow: visible;
+    .carousel-item {
+      padding: 60px 8px 20px;
+    }
   }
 
-  .react-multiple-carousel__arrow--left {
-    left: 15px;
-    top: 10px;
+  ${media.mobile} {
+    padding: 0;
   }
-
-  .react-multiple-carousel__arrow--right {
-    top: 10px;
-  }
-
-  padding-left: 40px;
-  padding-bottom: 40px;
 `;
 
 export const Title = styled.h2`
   font-size: 32px;
   font-weight: 800;
-  color: #61a120;
+  text-transform: uppercase;
+  color: ${(props) => props.theme.gren};
   padding-bottom: 12px;
   position: relative;
   text-align: center;
-  margin: 70px 0;
-  margin-top: 70px;
+  margin: 60px 0 10px;
 
   &::after {
     content: '';
@@ -40,7 +50,12 @@ export const Title = styled.h2`
     bottom: 0;
     width: 56px;
     height: 4px;
-    background-color: #61a120;
+    background-color: ${(props) => props.theme.gren};
     left: calc(50% - 28px);
+  }
+
+  ${media.mobile} {
+    font-size: 24px;
+    margin: 40px 0 0;
   }
 `;
