@@ -12,6 +12,11 @@ import '../styles.css';
 
 import { useCart } from '../../../hooks/CartContext';
 import { api } from '../../../services/api';
+import { Button } from '../../Button';
+import { Card, Content, PaymentMethodsNote } from './styles';
+
+const isStripeTestMode =
+  import.meta.env.VITE_STRIPE_PUBLIC_KEY?.startsWith('pk_test_') ?? false;
 
 export function CheckoutForm() {
   const { cartProducts, clearCart } = useCart();
@@ -94,39 +99,61 @@ export function CheckoutForm() {
   };
 
   return (
-    <div className="container">
-      <form id="payment-form" onSubmit={handleSubmit}>
-        <PaymentElement id="payment-element" options={paymentElementOptions} />
-        <button
-          disabled={isLoading || !stripe || !elements}
-          id="submit"
-          className="button"
+    <Content>
+      {isStripeTestMode && (
+        <Card role="note">
+          <h2 className="title">Ambiente de demonstração</h2>
+          <div className="content">
+            <p>
+              Este é um projeto de portfólio com o Stripe em modo de teste.
+              Nenhuma cobrança real é feita.
+            </p>
+            <p>
+              <strong>Cartão:</strong>{' '}
+              <strong className="card-number">4242 4242 4242 4242</strong> ·{' '}
+              <strong>Validade:</strong> qualquer data futura ·{' '}
+              <strong>CVC:</strong> qualquer número de 3 dígitos
+            </p>
+          </div>
+        </Card>
+      )}
+
+      <Card>
+        <h2 className="title">Dados do pagamento</h2>
+        <form
+          id="payment-form-content"
+          className="content"
+          onSubmit={handleSubmit}
         >
-          <span id="button-text">
+          <PaymentElement
+            id="payment-element"
+            options={paymentElementOptions}
+          />
+          <Button
+            type="submit"
+            id="submit"
+            disabled={isLoading || !stripe || !elements}
+          >
             {isLoading ? (
               <div className="spinner" id="spinner"></div>
             ) : (
               'Pagar Agora'
             )}
-          </span>
-        </button>
-        {/* Show any error or success messages */}
-        {message && <div id="payment-message">{message}</div>}
-      </form>
-      <div id="dpm-annotation">
-        <p>
+          </Button>
+          {/* Show any error or success messages */}
+          {message && <div id="payment-message">{message}</div>}
+        </form>
+      </Card>
+
+      {isStripeTestMode && dpmCheckerLink && (
+        <PaymentMethodsNote>
           Os métodos de pagamento são exibidos de acordo com a localização do
-          cliente, o valor do pedido e a moeda.&nbsp;
-          <a
-            href={dpmCheckerLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            id="dpm-integration-checker"
-          >
+          cliente, o valor do pedido e a moeda.{' '}
+          <a href={dpmCheckerLink} target="_blank" rel="noopener noreferrer">
             Visualizar métodos de pagamento por transação
           </a>
-        </p>
-      </div>
-    </div>
+        </PaymentMethodsNote>
+      )}
+    </Content>
   );
 }
