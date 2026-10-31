@@ -11,11 +11,11 @@ export function Checkout() {
   } = useLocation();
 
   if (!clientSecret) {
-    return <div>Erro, colte e tente novamente</div>;
+    return <div>Erro, volte e tente novamente</div>;
   }
 
   return (
-    <Elements stripe={stripePromise} options={{ clientSecret }}>
+    <Elements stripe={stripePromise} options={{ clientSecret, locale: 'pt-BR' }}>
       <CheckoutForm />
     </Elements>
   );

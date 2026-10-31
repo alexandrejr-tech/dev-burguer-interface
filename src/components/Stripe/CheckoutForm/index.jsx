@@ -115,15 +115,15 @@ export function CheckoutForm() {
       </form>
       <div id="dpm-annotation">
         <p>
-          Payment methods are dynamically displayed based on customer location,
-          order amount, and currency.&nbsp;
+          Os métodos de pagamento são exibidos de acordo com a localização do
+          cliente, o valor do pedido e a moeda.&nbsp;
           <a
             href={dpmCheckerLink}
             target="_blank"
             rel="noopener noreferrer"
             id="dpm-integration-checker"
           >
-            Preview payment methods by transaction
+            Visualizar métodos de pagamento por transação
           </a>
         </p>
       </div>
