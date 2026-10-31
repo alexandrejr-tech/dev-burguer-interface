@@ -1,4 +1,4 @@
-import { useNavigate, useResolvedPath } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { UserCircleIcon, ShoppingCartIcon } from '@phosphor-icons/react';
 import { useTheme } from 'styled-components';
@@ -29,7 +29,7 @@ export function Header() {
     0,
   );
 
-  const { pathname } = useResolvedPath();
+  const { pathname } = useLocation();
 
   function logoutUser() {
     logout();

@@ -1,4 +1,4 @@
-import { useResolvedPath } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { SignOutIcon } from '@phosphor-icons/react';
 
@@ -9,7 +9,7 @@ import { Container, Footer, NavLink, NavLinkContainer } from './styles';
 
 export function SideNavAdmin() {
   const { logout } = useUser();
-  const { pathname } = useResolvedPath();
+  const { pathname } = useLocation();
 
   return (
     <Container>

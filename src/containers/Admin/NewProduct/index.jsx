@@ -76,7 +76,7 @@ export function NewProduct() {
     const productFormData = new FormData();
 
     productFormData.append('name', data.name);
-    productFormData.append('price', data.price * 100);
+    productFormData.append('price', Math.round(data.price * 100));
     productFormData.append('category_id', data.category.id);
     productFormData.append('file', data.file[0]);
     productFormData.append('offer', data.offer);
@@ -103,7 +103,7 @@ export function NewProduct() {
 
         <InputGroup>
           <Label>Preço</Label>
-          <Input type="number" {...register('price')} />
+          <Input type="number" step="0.01" min="0" {...register('price')} />
           <ErrorMessage>{errors?.price?.message}</ErrorMessage>
         </InputGroup>
 

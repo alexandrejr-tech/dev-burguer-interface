@@ -58,7 +58,6 @@ export function CheckoutForm() {
           return {
             id: product.id,
             quantity: product.quantity,
-            price: product.price,
           };
         });
         const { status } = await api.post(

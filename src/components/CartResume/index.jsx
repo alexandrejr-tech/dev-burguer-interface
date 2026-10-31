@@ -10,11 +10,20 @@ import { Container } from './styles';
 
 export function CartResume() {
   const [finalPrice, setFinalPrice] = useState(0);
-  const [deliveryTax] = useState(500);
+  // Taxa de entrega em centavos, vinda da API (a mesma somada no pagamento).
+  const [deliveryTax, setDeliveryTax] = useState(null);
+  const isDeliveryTaxLoaded = deliveryTax !== null;
 
   const navigate = useNavigate();
 
   const { cartProducts, clearCart } = useCart();
+
+  useEffect(() => {
+    api
+      .get('/delivery-fee')
+      .then(({ data }) => setDeliveryTax(data.deliveryFee))
+      .catch(() => toast.error('Não foi possível carregar a taxa de entrega'));
+  }, []);
 
   useEffect(() => {
     const sumAllItems = cartProducts.reduce((acc, current) => {
@@ -29,7 +38,6 @@ export function CartResume() {
       return {
         id: product.id,
         quantity: product.quantity,
-        price: product.price,
       };
     });
 
@@ -61,15 +69,26 @@ export function CartResume() {
           <p className="items">Itens</p>
           <p className="items-price">{formatPrice(finalPrice)}</p>
           <p className="delivery-tax">Taxa de Entrega</p>
-          <p className="delivery-tax-price">{formatPrice(deliveryTax)}</p>
+          <p className="delivery-tax-price">
+            {isDeliveryTaxLoaded ? formatPrice(deliveryTax) : '...'}
+          </p>
         </div>
         <div className="container-bottom">
           <p>Total</p>
-          <p>{formatPrice(finalPrice + deliveryTax)}</p>
+          <p>
+            {isDeliveryTaxLoaded
+              ? formatPrice(finalPrice + deliveryTax)
+              : '...'}
+          </p>
         </div>
       </Container>
 
-      <Button onClick={submitOrder}>Finalizar Pedido</Button>
+      <Button
+        onClick={submitOrder}
+        disabled={!isDeliveryTaxLoaded || cartProducts.length === 0}
+      >
+        Finalizar Pedido
+      </Button>
     </div>
   );
 }
