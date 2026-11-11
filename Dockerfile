@@ -1,0 +1,45 @@
+# ---------- Estágio 1: build ----------
+# Usa Node só para gerar os arquivos estáticos; esta imagem é descartada no final.
+FROM node:22-bookworm-slim AS build
+
+# Evita que o corepack pare o build perguntando se pode baixar o yarn.
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+
+WORKDIR /app
+
+# Ativa o corepack, que instala o yarn na versão do campo packageManager (4.18.0).
+RUN corepack enable
+
+# Copia só os arquivos de dependências primeiro, para reaproveitar o cache do install.
+COPY package.json yarn.lock .yarnrc.yml ./
+
+# Instala as dependências exatamente como estão no yarn.lock (falha se ele estiver desatualizado).
+RUN yarn install --immutable
+
+# Copia o código do front (o .dockerignore deixa de fora node_modules, dist, .env...).
+COPY . .
+
+# Variáveis recebidas como build args. O Vite grava esses valores no JavaScript
+# durante o build, por isso precisam existir AGORA, e não quando o container roda.
+ARG VITE_API_URL
+ARG VITE_STRIPE_PUBLIC_KEY
+
+# Falha o build com mensagem clara se alguma variável não foi informada.
+RUN test -n "$VITE_API_URL" || (echo "Build arg VITE_API_URL não informado" && exit 1)
+RUN test -n "$VITE_STRIPE_PUBLIC_KEY" || (echo "Build arg VITE_STRIPE_PUBLIC_KEY não informado" && exit 1)
+
+# Gera os arquivos finais em /app/dist.
+RUN yarn build
+
+# ---------- Estágio 2: servidor ----------
+# Imagem final só com o Nginx: sem Node, sem código-fonte, sem node_modules.
+FROM nginx:1.28-alpine
+
+# Substitui a configuração padrão do Nginx pela nossa (SPA + cache).
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copia do estágio "build" apenas a pasta dist para a pasta que o Nginx serve.
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Documenta que o Nginx escuta na porta 80 dentro do container.
+EXPOSE 80

@@ -1,0 +1,17 @@
+# Dependências e build são gerados dentro da imagem
+node_modules
+dist
+.yarn/install-state.gz
+
+# Os valores do front entram como build args, nunca por arquivo .env
+.env
+.env.*
+!.env.example
+
+# Arquivos que não são necessários para o build
+.git
+.gitignore
+*.log
+Dockerfile
+.dockerignore
+README.md
