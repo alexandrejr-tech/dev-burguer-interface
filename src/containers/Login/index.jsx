@@ -67,7 +67,19 @@ export function Login() {
             return `Seja Bem-vindo (a) 👌`;
           },
         },
-        error: 'Email ou Senha Incorretos 🤯',
+        error: {
+          render({ data: error }) {
+            // Limite de tentativas atingido: mostra a mensagem enviada pela API.
+            if (error?.response?.status === 429) {
+              return (
+                error.response.data?.error ??
+                'Muitas tentativas. Aguarde um pouco e tente novamente.'
+              );
+            }
+
+            return 'Email ou Senha Incorretos 🤯';
+          },
+        },
       },
     );
 

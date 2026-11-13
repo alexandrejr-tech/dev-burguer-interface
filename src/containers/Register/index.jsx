@@ -51,7 +51,7 @@ export function Register() {
 
   const onSubmit = async (data) => {
     try {
-      const { status } = await api.post(
+      const { status, data: responseData } = await api.post(
         '/users',
         {
           name: data.name,
@@ -70,6 +70,12 @@ export function Register() {
         toast.success('Conta criada com sucesso');
       } else if (status === 400) {
         toast.error('Email já cadastrado! Faça o login para continuar');
+      } else if (status === 429) {
+        // Limite de cadastros atingido: mostra a mensagem enviada pela API.
+        toast.error(
+          responseData?.error ??
+            'Muitas tentativas. Aguarde um pouco e tente novamente.',
+        );
       } else {
         throw new Error();
       }
