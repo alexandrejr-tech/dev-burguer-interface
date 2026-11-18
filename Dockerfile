@@ -1,6 +1,8 @@
 # ---------- Estágio 1: build ----------
 # Usa Node só para gerar os arquivos estáticos; esta imagem é descartada no final.
-FROM node:22-bookworm-slim AS build
+# Fixada por digest (sha256): o build usa sempre exatamente esta imagem, no CI e
+# no Dokploy. O Dependabot abre um PR quando a tag ganha uma versão nova.
+FROM node:22-bookworm-slim@sha256:e9f565d32859f0cbfb52125eafe8be39390f24dac302dc3cdf566e8ba3ab21ee AS build
 
 # Evita que o corepack pare o build perguntando se pode baixar o yarn.
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
@@ -11,7 +13,9 @@ WORKDIR /app
 RUN corepack enable
 
 # Copia só os arquivos de dependências primeiro, para reaproveitar o cache do install.
+# .yarn/empty-package: pacote vazio usado nas "resolutions" do package.json.
 COPY package.json yarn.lock .yarnrc.yml ./
+COPY .yarn/empty-package ./.yarn/empty-package
 
 # Instala as dependências exatamente como estão no yarn.lock (falha se ele estiver desatualizado).
 RUN yarn install --immutable
@@ -33,7 +37,8 @@ RUN yarn build
 
 # ---------- Estágio 2: servidor ----------
 # Imagem final só com o Nginx: sem Node, sem código-fonte, sem node_modules.
-FROM nginx:1.28-alpine
+# Fixada por digest, como a imagem do build acima.
+FROM nginx:1.30-alpine@sha256:901e593c95dc85f5a729f5765516321366ef4ac401821431d408897e95287d0a
 
 # Substitui a configuração padrão do Nginx pela nossa (SPA + cache).
 COPY nginx.conf /etc/nginx/conf.d/default.conf
