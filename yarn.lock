@@ -988,10 +988,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stripe/stripe-js@npm:^9.17.0":
-  version: 9.17.0
-  resolution: "@stripe/stripe-js@npm:9.17.0"
-  checksum: 10c0/1358de10b0f376cf8044245568c32e78fefb163ff9c933dd7319fc9752063f410bb09d468583d66d31587177a2e92c158e8d9fe29e9c120a5539be650d0a748e
+"@stripe/stripe-js@npm:^10.3.0":
+  version: 10.3.0
+  resolution: "@stripe/stripe-js@npm:10.3.0"
+  checksum: 10c0/a271d0374c5aae246a4df637456a20d1cb6e7cd73538fcc4358ed8dfb92bbea4f2a354435b18268dc9cc4da82de7fd7e4a555a6a7d72d4b668c46ed219731a7e
   languageName: node
   linkType: hard
 
@@ -1390,7 +1390,7 @@ __metadata:
     "@mui/material": "npm:^9.4.0"
     "@phosphor-icons/react": "npm:^2.1.10"
     "@stripe/react-stripe-js": "npm:^6.12.0"
-    "@stripe/stripe-js": "npm:^9.17.0"
+    "@stripe/stripe-js": "npm:^10.3.0"
     "@types/react": "npm:^19.2.17"
     "@types/react-dom": "npm:^19.2.3"
     "@vitejs/plugin-react": "npm:^6.0.4"
