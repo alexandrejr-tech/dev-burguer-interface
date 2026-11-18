@@ -83,7 +83,7 @@ jobs:
     uses: ./.github/workflows/security.yml
     with:
       # false: só reporta. true: vulnerabilidades da política bloqueiam o deploy.
-      enforce: false
+      enforce: true
       # PROJETO: build args do Dockerfile. Valores falsos: a imagem do CI só é analisada,
       # nunca publicada. Os valores reais entram no build do Dokploy.
       image-build-args: |
