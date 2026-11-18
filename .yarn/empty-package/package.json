@@ -1,0 +1,6 @@
+{
+  "name": "empty-package",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Pacote vazio. Substitui (via resolutions) dependências declaradas por engano por bibliotecas de terceiros, como npm e install no react-multi-carousel."
+}
