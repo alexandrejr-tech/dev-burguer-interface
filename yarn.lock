@@ -975,16 +975,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stripe/react-stripe-js@npm:^6.12.0":
-  version: 6.12.0
-  resolution: "@stripe/react-stripe-js@npm:6.12.0"
+"@stripe/react-stripe-js@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "@stripe/react-stripe-js@npm:7.1.0"
   dependencies:
     prop-types: "npm:^15.7.2"
   peerDependencies:
-    "@stripe/stripe-js": ">=9.16.0 <10.0.0"
+    "@stripe/stripe-js": ">=10.3.0 <11.0.0"
     react: ">=16.8.0 <20.0.0"
     react-dom: ">=16.8.0 <20.0.0"
-  checksum: 10c0/6f9a73faed988d1b995a7374c640ae2bb3f8d9c51fb167bd8ebbe56c70c636fe495e871a22086cc791c07cbd72668ae930de1d84bf539386872e0994ef9bd1df
+  checksum: 10c0/8af95131b2ea91b54de5eedada591c8505f0e80a32a6d25f5f92ee0369fa561e628246a973fd025340a930082ff427700f9e260b758c0041c8ed36ea821d28d8
   languageName: node
   linkType: hard
 
@@ -1389,7 +1389,7 @@ __metadata:
     "@mui/icons-material": "npm:^9.4.0"
     "@mui/material": "npm:^9.4.0"
     "@phosphor-icons/react": "npm:^2.1.10"
-    "@stripe/react-stripe-js": "npm:^6.12.0"
+    "@stripe/react-stripe-js": "npm:^7.1.0"
     "@stripe/stripe-js": "npm:^9.17.0"
     "@types/react": "npm:^19.2.17"
     "@types/react-dom": "npm:^19.2.3"
