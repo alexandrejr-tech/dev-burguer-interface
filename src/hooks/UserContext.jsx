@@ -1,27 +1,49 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+
+import { setUnauthorizedHandler } from '../services/api';
+
+const USER_DATA_KEY = 'devburguer:userData';
+
+// Lê o usuário salvo já na criação do estado, para as rotas protegidas
+// saberem desde a primeira renderização se existe alguém logado.
+const getStoredUser = () => {
+  try {
+    return JSON.parse(localStorage.getItem(USER_DATA_KEY)) ?? {};
+  } catch {
+    localStorage.removeItem(USER_DATA_KEY);
+    return {};
+  }
+};
 
 const UserContext = createContext({});
 
 export const UserProvider = ({ children }) => {
-  const [userInfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState(getStoredUser);
 
   const putUserData = (userInfo) => {
     setUserInfo(userInfo);
 
-    localStorage.setItem('devburguer:userData', JSON.stringify(userInfo));
+    localStorage.setItem(USER_DATA_KEY, JSON.stringify(userInfo));
   };
 
   const logout = () => {
     setUserInfo({});
-    localStorage.removeItem('devburguer:userData');
+    localStorage.removeItem(USER_DATA_KEY);
   };
 
+  // Token ausente, inválido ou expirado (401 da API): encerra a sessão.
+  // Sem usuário no contexto, as rotas protegidas redirecionam para o login.
   useEffect(() => {
-    const userInfoLocalStorage = localStorage.getItem('devburguer:userData');
+    setUnauthorizedHandler(() => {
+      setUserInfo({});
+      localStorage.removeItem(USER_DATA_KEY);
+      toast.error('Sua sessão expirou. Faça login novamente.', {
+        toastId: 'session-expired',
+      });
+    });
 
-    if (userInfoLocalStorage) {
-      setUserInfo(JSON.parse(userInfoLocalStorage));
-    }
+    return () => setUnauthorizedHandler(null);
   }, []);
 
   return (
